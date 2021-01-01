@@ -35,15 +35,23 @@ body {
 }
 
 .background-primary {
-  background-color: $background-dark!important;
+  background-color: $background-dark !important;
 }
 .background-accent {
-  background-color: $accent-color!important;
+  background-color: $accent-color !important;
 }
 .text-floral-white {
-  color: floralwhite!important;
+  color: floralwhite !important;
 }
 
 .flex-spacer {
   flex: 1 1 auto;
+}
+
+.leadersItem {
+  height: 5rem !important;
+}
+.flex-image {
+  height: 3rem;
+  border-radius: 50%;;
 }
