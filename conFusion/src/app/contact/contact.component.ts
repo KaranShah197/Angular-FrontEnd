@@ -24,7 +24,7 @@ export class ContactComponent implements OnInit {
 	validationMessages = {
 		'firstname'	: {
 			'required'	: 'First name is required.',
-			'minlength'	: 'First name must be atleast 2 characters long.',
+			'minLength'	: 'First name must be atleast 2 characters long.',
 			'maxlength'	: 'First name can not be more than 30 characters.'
 		},
 		'lastname'	: {
@@ -44,10 +44,9 @@ export class ContactComponent implements OnInit {
 
 	constructor(private fb: FormBuilder) {
 		this.createForm();
-	 }
-
-	ngOnInit() {
 	}
+
+	ngOnInit() { }
 
 	createForm() {
 		this.feedbackForm = this.fb.group({

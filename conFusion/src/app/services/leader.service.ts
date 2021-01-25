@@ -1,43 +1,50 @@
 import { Injectable } from '@angular/core';
 import { Leader } from '../shared/leader';
-import { LEADERS } from '../shared/leaders';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { baseURL } from '../shared/baseurl';
+import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class LeaderService {
 
-  constructor() { }
+	constructor(private http: HttpClient) { }
 
-  getLeaders(): Observable<Leader[]> {
-    //return Promise.resolve(LEADERS);
-    /*return new Promise(resolve => {
-      //Simulate server latency with 2 seconds delay
-      setTimeout(() => resolve(LEADERS), 2000);
-    });*/
+	getLeaders(): Observable<Leader[]> {
+		//return Promise.resolve(LEADERS);
+		/*return new Promise(resolve => {
+			//Simulate server latency with 2 seconds delay
+			setTimeout(() => resolve(LEADERS), 2000);
+		});*/
+		return this.http.get<Leader[]>(baseURL + 'leaders');
+	}
 
-    return of(LEADERS).pipe(delay(2000));
-  }
+	getLeader(id: String): Observable<Leader> {
+		//return Promise.resolve(LEADERS.filter( (leader) => (leader.id === id) )[0]);
+		/*return new Promise(resolve => {
+			//Simulate server latency with 2 seconds delay
+			setTimeout(() => resolve(LEADERS.filter( (leader) => (leader.id === id) )[0]), 2000);
+		});*/
 
-  getLeader(id: String): Promise<Leader> {
-    //return Promise.resolve(LEADERS.filter( (leader) => (leader.id === id) )[0]);
-    /*return new Promise(resolve => {
-      //Simulate server latency with 2 seconds delay
-      setTimeout(() => resolve(LEADERS.filter( (leader) => (leader.id === id) )[0]), 2000);
-    });*/
+		//return of(LEADERS.filter( (leader) => (leader.id === id) )[0]).pipe(delay(2000)).toPromise();
+		return this.http.get<Leader>(baseURL + 'leaders/' + id);
+	}
 
-    return of(LEADERS.filter( (leader) => (leader.id === id) )[0]).pipe(delay(2000)).toPromise();
-  }
+	getFeaturedLeader(): Observable<Leader> {
+		//return Promise.resolve(LEADERS.filter( (leader) => (leader.featured) )[0]);
+		/*return new Promise(resolve => {
+			//Simulate server latency with 2 seconds delay
+			setTimeout(() => resolve(LEADERS.filter( (leader) => (leader.featured) )[0]), 2000);
+		});*/
 
-  getFeaturedLeader(): Observable<Leader> {
-    //return Promise.resolve(LEADERS.filter( (leader) => (leader.featured) )[0]);
-    /*return new Promise(resolve => {
-      //Simulate server latency with 2 seconds delay
-      setTimeout(() => resolve(LEADERS.filter( (leader) => (leader.featured) )[0]), 2000);
-    });*/
+		return this.http.get<Leader>(baseURL + 'leaders?featured=true')
+			.pipe(map(dishes => dishes[0]));
+	}
 
-    return of( LEADERS.filter( (leader) => (leader.featured) )[0]).pipe(delay(2000));
-  }
+	getLeaderIds(): Observable<string[] | any> {
+		return this.getLeaders()
+			.pipe(map(leader => leader.map(leader => leader.id)));
+	}
 }
