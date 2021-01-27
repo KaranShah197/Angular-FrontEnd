@@ -23,8 +23,8 @@ export class DishdetailComponent implements OnInit {
 	next		: string;
 	dishCopy: Dish;
 
-	commentForm 	: FormGroup;
-	comment     	: Comment;
+	commentForm	: FormGroup;
+	comment			: Comment;
 	@ViewChild('cform') commentFormDirective;
 
 	formErrors = {
@@ -64,7 +64,7 @@ export class DishdetailComponent implements OnInit {
 			.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
 			.subscribe(
 				dish => { 
-					this.dish = dish;
+					this.dish 		= dish;
 					this.dishCopy = dish; 
 					this.setPrevNext(dish.id);
 				},
@@ -74,8 +74,8 @@ export class DishdetailComponent implements OnInit {
 
 	setPrevNext(dishId: string) {
 		const index = this.dishIds.indexOf(dishId);
-		this.prev = this.dishIds[(this.dishIds.length + index - 1) % this.dishIds.length];
-		this.next = this.dishIds[(this.dishIds.length + index + 1) % this.dishIds.length];
+		this.prev 	= this.dishIds[(this.dishIds.length + index - 1) % this.dishIds.length];
+		this.next 	= this.dishIds[(this.dishIds.length + index + 1) % this.dishIds.length];
 	}
 
 	goBack(): void {
@@ -116,20 +116,20 @@ export class DishdetailComponent implements OnInit {
 	}
 	
 	onSubmit() {
-		this.comment = this.commentForm.value;
+		this.comment 			= this.commentForm.value;
 		this.comment.date = new Date().toISOString();
 		//this.dish.comments.push(this.comment);
 		this.dishCopy.comments.push(this.comment);
 		this.dishService.putDish(this.dishCopy)
 			.subscribe(
 				dish => {
-					this.dish = dish;
+					this.dish 		= dish;
 					this.dishCopy = dish;
 				},
 				errMsg => {
-					this.dish = null;
+					this.dish 		= null;
 					this.dishCopy = null;
-					this.errMsg = <any>errMsg;
+					this.errMsg 	= <any>errMsg;
 				}
 			);
 		//this.commentFormDirective.resetForm();
